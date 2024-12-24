@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weihnacht's Geschenk</title>
+    <style>
+        @keyframes colorChange {
+            0% { color: red; }
+            25% { color: green; }
+            50% { color: gold; }
+            75% { color: blue; }
+            100% { color: red; }
+        }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        #image-container {
+            margin: 20px auto;
+            width: 80%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 10px;
+            transition: opacity 1s ease-in-out;
+        }
+        img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        .selector {
+            margin: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        audio {
+            display: none;
+        }
+        h1 {
+            font-size: 3rem;
+            animation: colorChange 5s infinite;
+        }
+        #impressum {
+            position: fixed;
+            bottom: 5px;
+            right: 5px;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+        }
+        #impressum:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        #impressum-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding-top: 20%;
+        }
+        #impressum-modal button {
+            margin-top: 20px;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Frohe Weihnachten!</h1>
+    <div class="selector">
+        <button onclick="selectOption('option1')">Option 1: Fabian, Oma und Papa</button>
+        <button onclick="selectOption('option2')">Option 2: Mama und Oma</button>
+    </div>
+    <div id="image-container">
+        <img id="display-image" src="" alt="Wähle eine Option, um Bilder anzuzeigen">
+    </div>
+    <audio id="background-music" loop autoplay>
+        <source src="christmas_music.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <div id="impressum" onclick="showImpressum()">Impressum</div>
+    <div id="impressum-modal">
+        <p>Impressum: Dieses Projekt wurde erstellt von Philipp Litwin. Kontakt: phrugu18@gmail.com.</p>
+        <button onclick="closeImpressum()">Schließen</button>
+    </div>
+    <script>
+        const images = {
+            option1: [
+                'fabian1.png', 'fabian2.jpg', 'fabian3.jpg', 'fabian4.jpg',
+                'oma1.png', 'oma2.jpg', 'oma3.jpg', 'oma4.jpg',
+                'papa1.png', 'papa2.jpg', 'papa3.jpg', 'papa4.jpg'
+            ],
+            option2: [
+                'mama1.png', 'mama2.jpg', 'mama3.jpg', 'mama4.jpg',
+                'mama5.jpg', 'mama6.jpg', 'mama7.jpg', 'mama8.jpg'
+            ]
+        };
+
+        let currentOption = null;
+        let currentIndex = 0;
+        let interval = null;
+
+        function selectOption(option) {
+            currentOption = images[option];
+            currentIndex = 0;
+            updateImage();
+            if (interval) {
+                clearInterval(interval);sv
+            }
+            interval = setInterval(nextImage, 5000);
+        }
+
+        function updateImage() {
+            const imgElement = document.getElementById('display-image');
+            const container = document.getElementById('image-container');
+
+            if (currentOption && currentOption.length > 0) {
+                container.style.opacity = 0;
+                setTimeout(() => {
+                    imgElement.src = currentOption[currentIndex];
+                    imgElement.alt = `Bild ${currentIndex + 1}`;
+                    container.style.opacity = 1;
+                }, 1000);
+            } else {
+                imgElement.src = '';
+                imgElement.alt = 'Keine Bilder verfügbar';
+            }
+        }
+
+        function nextImage() {
+            if (currentOption && currentOption.length > 0) {
+                currentIndex = (currentIndex + 1) % currentOption.length;
+                updateImage();
+            }
+        }
+
+        function showImpressum() {
+            document.getElementById('impressum-modal').style.display = 'block';
+        }
+
+        function closeImpressum() {
+            document.getElementById('impressum-modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
