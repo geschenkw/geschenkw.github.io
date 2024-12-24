@@ -123,12 +123,18 @@
         let currentIndex = 0;
         let interval = null;
 
+        // Funktion zum Abspielen von Musik, wenn eine Option ausgewählt wird
         function selectOption(option) {
             currentOption = images[option];
             currentIndex = 0;
             updateImage();
+
+            // Hintergrundmusik abspielen
+            const audio = document.getElementById('background-music');
+            audio.play();
+
             if (interval) {
-                clearInterval(interval);sv
+                clearInterval(interval);
             }
             interval = setInterval(nextImage, 5000);
         }
